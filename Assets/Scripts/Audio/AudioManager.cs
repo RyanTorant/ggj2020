@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum SFX
+{
+    StartJump,
+    EndJump,
+    Grab,
+    Release,
+    Dead
+};
+
 public class AudioManager : MonoBehaviour
 {
-    public static readonly int StartJumpSFX = 0;
-    public static readonly int EndJumpSFX = 1;
-    public static readonly int Drag = 2;
-    public static readonly int Release = 3;
-    public static readonly int Dead = 4;
-
     public static readonly int MainMenuMusic = 0;
 
     public AudioClip[] soundsFX;
@@ -79,11 +82,11 @@ public class AudioManager : MonoBehaviour
         return instance;
     }
 
-    public static void PlaySound(int sound)
+    public static void PlaySound(SFX sound)
     {
         if (instance != null)
         {
-            instance.fxAudioSource.PlayOneShot(instance.soundsFX[sound]);
+            instance.fxAudioSource.PlayOneShot(instance.soundsFX[(int)sound]);
         }
     }
 
@@ -105,23 +108,25 @@ public class AudioManager : MonoBehaviour
     {
         if (instance != null)
         {
-            instance.StartCoroutine(FadeOut(fade));
+            instance.StartCoroutine(FadeOut(instance.musicAudioSource1,fade));
         }
     }
 
-    public static void PlayMoving()
+    public static void PlayMoving(float fade)
     {
         if (instance != null)
         {
+            instance.moveAudioSource.volume = 0;
             instance.moveAudioSource.Play();
+            instance.StartCoroutine(FadeIn(instance.moveAudioSource, fade));
         }
     }
 
-    public static void StopMoving()
+    public static void StopMoving(float fade)
     {
         if (instance != null)
         {
-            instance.moveAudioSource.Stop();
+            instance.StartCoroutine(FadeOut(instance.moveAudioSource, fade));
         }
     }
 
@@ -150,25 +155,43 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public static IEnumerator FadeOut(float fadeTime)
+    public static IEnumerator FadeOut(AudioSource audio, float fadeTime)
     {
         if (fadeTime == 0.0f)
         {
-            instance.musicAudioSource1.volume = 0.0f;
-            instance.musicAudioSource1.Stop();
+            audio.volume = 0.0f;
+            audio.Stop();
         }
         else
         {
-            while (instance.musicAudioSource1.volume > 0)
+            while (audio.volume > 0)
             {
                 float deltaVolume = instance.musicVolume * (Time.deltaTime / fadeTime);
-                instance.musicAudioSource1.volume -= deltaVolume;
+                 audio.volume -= deltaVolume;
 
                 yield return null;
             }
 
-            instance.musicAudioSource1.volume = 0;
-            instance.musicAudioSource1.Stop();
+            audio.volume = 0;
+            audio.Stop();
+        }
+    }
+    public static IEnumerator FadeIn(AudioSource audio, float fadeTime)
+    {
+        if (fadeTime == 0.0f)
+        {
+            audio.volume = instance.musicVolume;
+        }
+        else
+        {
+            while (audio.volume > 0)
+            {
+                float deltaVolume = instance.musicVolume * (Time.deltaTime / fadeTime);
+                audio.volume += deltaVolume;
+
+                yield return null;
+            }
+            audio.volume = instance.musicVolume;
         }
     }
 

@@ -38,8 +38,13 @@ public class PlayerController : KinematicObject
     {
         movementVec.x = Input.GetAxis("Horizontal");
 
-        if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
+        if (jumpState == JumpState.Grounded && !IsGrabbing && Input.GetButtonDown("Jump"))
             jumpState = JumpState.PrepareToJump;
+
+        if (Input.GetButtonDown("Grab"))
+        {
+            IsGrabbing = !IsGrabbing;
+        }
 
         switch (jumpState)
         {
