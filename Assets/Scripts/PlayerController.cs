@@ -14,8 +14,8 @@ public class PlayerController : KinematicObject
     }
 
     // Public interface
-    public float moveSpeed = 4.0f;
-    public float jumpTakeOffSpeed = 6.25f;
+    public float moveSpeed = 2.0f;
+    public float jumpTakeOffSpeed = 3.5f;
     public bool IsGrabbing { get; private set; } = false;
     public bool IsDead { get; private set; } = false;
 
