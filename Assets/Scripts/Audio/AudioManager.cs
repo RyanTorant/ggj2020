@@ -30,8 +30,8 @@ public class AudioManager : MonoBehaviour
 
     private int audioSourcesNum = 4;
     private bool isMute;
-    private float musicVolume = 1;
-    private float soundFXVolume = 1;
+    private float musicVolume=0.5f;
+    private float soundFXVolume=0.5f;
 
     public static void setVolume(bool isMusic, float volume)
     {
