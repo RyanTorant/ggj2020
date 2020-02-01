@@ -24,6 +24,8 @@ public class HudController : MonoBehaviour
         Image enemySprite = EnemyImage.GetComponent<Image>();
         margin = new Vector3(enemySprite.rectTransform.sizeDelta.x * 1.5f, 0, 0);
         HudLoad();
+        GameObject cam = GameObject.FindWithTag("HudCam");
+        DestroyImmediate(cam);
     }
 
     public void KillEnemy()
