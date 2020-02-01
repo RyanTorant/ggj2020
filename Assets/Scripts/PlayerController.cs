@@ -14,15 +14,18 @@ public class PlayerController : KinematicObject
     }
 
     // Public interface
-    public float moveSpeed = 7;
-    public float jumpTakeOffSpeed = 7;
+    public float moveSpeed = 4.0f;
+    public float jumpTakeOffSpeed = 6.25f;
+    public bool IsGrabbing { get; private set; } = false;
+    public bool IsDead { get; private set; } = false;
 
     // Internal state
     private Collider2D collider2d;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private Vector2 movementVec;
-    private JumpState jumpState = JumpState.Grounded;
+    public JumpState jumpState = JumpState.Grounded;
+
 
     void Awake()
     {
@@ -79,8 +82,11 @@ public class PlayerController : KinematicObject
         else if (movementVec.x < -moveEpsilon)
             spriteRenderer.flipX = true;
 
-        animator.SetBool("grounded", IsGrounded);
-        animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / moveSpeed);
+        animator.SetBool("Jumping", jumpState == JumpState.Jumping || jumpState == JumpState.InFlight);
+        animator.SetBool("Grounded", IsGrounded);
+        animator.SetBool("Grabbing", IsGrabbing);
+        animator.SetBool("Dead", IsDead);
+        animator.SetFloat("VelocityX", Mathf.Abs(velocity.x) / moveSpeed);
 
         targetVelocity = movementVec * moveSpeed;
     }
