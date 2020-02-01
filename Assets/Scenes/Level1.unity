@@ -162,8 +162,8 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 9.044448, y: 4.1116996}
-      - {x: -9.3287115, y: 4.121704}
+    - - {x: 9.113083, y: 7.42907}
+      - {x: -9.505675, y: 5.794831}
       - {x: -9.3073845, y: -3.2197301}
       - {x: 0.023575976, y: -3.2710216}
       - {x: 9.106446, y: -3.2814064}
@@ -291,12 +291,12 @@ PrefabInstance:
     - target: {fileID: 278504906257787677, guid: 434680b5c05fec54aa13b1fd97b97cc4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.3199997
+      value: -8.863
       objectReference: {fileID: 0}
     - target: {fileID: 278504906257787677, guid: 434680b5c05fec54aa13b1fd97b97cc4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.8200003
+      value: 4.0180006
       objectReference: {fileID: 0}
     - target: {fileID: 278504906257787677, guid: 434680b5c05fec54aa13b1fd97b97cc4,
         type: 3}
@@ -399,12 +399,12 @@ PrefabInstance:
     - target: {fileID: 6141731252831293470, guid: c48d94a9e97e7be459adef29881fa339,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.0919285
+      value: -3.9205914
       objectReference: {fileID: 0}
     - target: {fileID: 6141731252831293470, guid: c48d94a9e97e7be459adef29881fa339,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.7176311
+      value: 0.72647953
       objectReference: {fileID: 0}
     - target: {fileID: 6141731252831293470, guid: c48d94a9e97e7be459adef29881fa339,
         type: 3}
@@ -483,12 +483,12 @@ PrefabInstance:
     - target: {fileID: 4043393977222133036, guid: 4f7dc1b53361a5741a1919a565cd6921,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.32
+      value: -8.863
       objectReference: {fileID: 0}
     - target: {fileID: 4043393977222133036, guid: 4f7dc1b53361a5741a1919a565cd6921,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.82
+      value: 4.018
       objectReference: {fileID: 0}
     - target: {fileID: 4043393977222133036, guid: 4f7dc1b53361a5741a1919a565cd6921,
         type: 3}
