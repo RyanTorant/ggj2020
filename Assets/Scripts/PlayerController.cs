@@ -72,9 +72,11 @@ public class PlayerController : KinematicObject
             jumpState = JumpState.Jumping;
         }
 
-        if (movementVec.x > 0.01f)
+        const float moveEpsilon = 0.01f;
+
+        if (movementVec.x > moveEpsilon)
             spriteRenderer.flipX = false;
-        else if (movementVec.x < -0.01f)
+        else if (movementVec.x < -moveEpsilon)
             spriteRenderer.flipX = true;
 
         animator.SetBool("grounded", IsGrounded);
