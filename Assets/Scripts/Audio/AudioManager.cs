@@ -3,7 +3,11 @@ using System.Collections;
 
 public class AudioManager : MonoBehaviour
 {
-    public static readonly int JumpSFX = 0;
+    public static readonly int StartJumpSFX = 0;
+    public static readonly int EndJumpSFX = 1;
+    public static readonly int Drag = 2;
+    public static readonly int Release = 3;
+    public static readonly int Dead = 4;
 
     public static readonly int MainMenuMusic = 0;
 
@@ -86,6 +90,22 @@ public class AudioManager : MonoBehaviour
         if (instance != null)
         {
             instance.StartCoroutine(FadeOut(fade));
+        }
+    }
+
+    public static void PlayMoving()
+    {
+        if (instance != null)
+        {
+            instance.moveAudioSource.Play();
+        }
+    }
+
+    public static void StopMoving()
+    {
+        if (instance != null)
+        {
+            instance.moveAudioSource.Stop();
         }
     }
 
