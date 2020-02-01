@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 27548240}
   - component: {fileID: 27548241}
   m_Layer: 5
-  m_Name: EFXSlider
+  m_Name: FXSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -208,7 +208,18 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1820372155}
+        m_MethodName: ChangeFXVolume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &29137623
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,7 +288,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: EFX
+  m_Text: Sound FX
 --- !u!222 &29137626
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1081,7 +1092,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: EFX
+  m_Text: Sound FX
 --- !u!222 &1159258558
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1255,7 +1266,18 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1820372155}
+        m_MethodName: ChangeMusicVolume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1388952649
 GameObject:
   m_ObjectHideFlags: 0
@@ -1528,8 +1550,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1820372154}
   - component: {fileID: 1820372153}
+  - component: {fileID: 1820372155}
   m_Layer: 0
-  m_Name: Menu
+  m_Name: OptionMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1561,6 +1584,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1820372155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1820372152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79538f4e4d551a54aaeb3a8e757c9a3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicVol: {fileID: 1279369588}
+  fxVol: {fileID: 27548241}
 --- !u!1 &1969430698
 GameObject:
   m_ObjectHideFlags: 0
@@ -1707,7 +1744,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 49.199997, y: 22}
+  m_AnchoredPosition: {x: 49.19995, y: 22}
   m_SizeDelta: {x: 86.4, y: 23.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1992953021
@@ -1889,7 +1926,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2062348941}
   m_Layer: 5
-  m_Name: EFXVol
+  m_Name: FXVol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

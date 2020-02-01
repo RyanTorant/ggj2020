@@ -30,7 +30,23 @@ public class AudioManager : MonoBehaviour
 
     private int audioSourcesNum = 4;
     private bool isMute;
-    private float volume = 1;
+    private float musicVolume;
+    private float soundFXVolume;
+
+    public static void setVolume(bool isMusic, float volume)
+    {
+        if (instance != null)
+        {
+            if (isMusic)
+            {
+                instance.musicVolume = volume;
+            }
+            else
+            {
+                instance.soundFXVolume = volume;
+            }
+        }
+    }
 
     void OnEnable()
     {
@@ -118,7 +134,7 @@ public class AudioManager : MonoBehaviour
     {
         if (fadeTime == 0.0f)
         {
-            instance.musicAudioSource1.volume = instance.volume;
+            instance.musicAudioSource1.volume = instance.musicVolume;
             instance.musicAudioSource2.volume = 0.0f;
             instance.musicAudioSource2.Stop();
         }
@@ -126,14 +142,14 @@ public class AudioManager : MonoBehaviour
         {
             while (instance.musicAudioSource2.volume > 0)
             {
-                float deltaVolume = instance.volume * (Time.deltaTime / fadeTime);
+                float deltaVolume = instance.musicVolume * (Time.deltaTime / fadeTime);
                 instance.musicAudioSource2.volume -= deltaVolume;
                 instance.musicAudioSource1.volume += deltaVolume;
 
                 yield return null;
             }
 
-            instance.musicAudioSource1.volume = instance.volume;
+            instance.musicAudioSource1.volume = instance.musicVolume;
             instance.musicAudioSource2.volume = 0;
             instance.musicAudioSource2.Stop();
         }
@@ -150,8 +166,8 @@ public class AudioManager : MonoBehaviour
         {
             while (audio.volume > 0)
             {
-                float deltaVolume = instance.volume * (Time.deltaTime / fadeTime);
-                audio.volume -= deltaVolume;
+                float deltaVolume = instance.musicVolume * (Time.deltaTime / fadeTime);
+                 audio.volume -= deltaVolume;
 
                 yield return null;
             }
@@ -164,20 +180,28 @@ public class AudioManager : MonoBehaviour
     {
         if (fadeTime == 0.0f)
         {
-            audio.volume = instance.volume;
+            audio.volume = instance.musicVolume;
         }
         else
         {
             while (audio.volume > 0)
             {
-                float deltaVolume = instance.volume * (Time.deltaTime / fadeTime);
+                float deltaVolume = instance.musicVolume * (Time.deltaTime / fadeTime);
                 audio.volume += deltaVolume;
 
                 yield return null;
             }
-
-            audio.volume = instance.volume;
+            audio.volume = instance.musicVolume;
         }
     }
 
+    public static float GetMusicVol()
+    {
+        return instance.musicVolume;
+    }
+
+    public static float GetFXVol()
+    {
+        return instance.soundFXVolume;
+    }
 }
