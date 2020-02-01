@@ -11,16 +11,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: c09dd88b40116b24698d613669d6eb93
-  - enabled: 1
-    path: Assets/Scenes/Credits.unity
+  - enabled: 0
+    path: Assets/__DELETED_GUID_Trash/319cb3bf912eb8e4baddab437c5edcba
     guid: 319cb3bf912eb8e4baddab437c5edcba
   - enabled: 1
     path: Assets/Scenes/Hud.unity
     guid: 54bf8bf6390f8c34f80ef11468a18b6f
   - enabled: 1
-    path: Assets/Scenes/Options.unity
+    path: Assets/Scenes/Credits.unity
     guid: 0abe0db22a883474ca5e46155d1f9018
   - enabled: 1
     path: Assets/Scenes/Level1.unity
     guid: d56564b426f9b084d9d4a4ed26478da0
+  - enabled: 1
+    path: Assets/Scenes/Options.unity
+    guid: 1fa189c876a0e5b4598e59238431c502
   m_configObjects: {}
