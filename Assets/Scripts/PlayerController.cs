@@ -25,7 +25,7 @@ public class PlayerController : KinematicObject
     private Animator animator;
     private Vector2 movementVec;
     public JumpState jumpState = JumpState.Grounded;
-
+    private GameObject tileToGrab;
 
     void Awake()
     {
@@ -33,6 +33,20 @@ public class PlayerController : KinematicObject
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         AudioManager.PlayMusic(0);
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("DynamicTile"))
+        {
+            tileToGrab = other.gameObject;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject == tileToGrab)
+        {
+            tileToGrab = null;
+        }
     }
 
     protected override void Update()
@@ -44,7 +58,18 @@ public class PlayerController : KinematicObject
 
         if (Input.GetButtonDown("Grab"))
         {
-            IsGrabbing = !IsGrabbing;
+            if(!IsGrabbing && tileToGrab != null)
+            {
+                IsGrabbing = true;
+                tileToGrab.transform.SetParent(transform);
+                tileToGrab.transform.localPosition += new Vector3(0, 0.1f);
+                tileToGrab.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+            }
+            else if(IsGrabbing && tileToGrab != null)
+            {
+                IsGrabbing = false;
+                tileToGrab.transform.SetParent(null);
+            }
         }
 
         switch (jumpState)
@@ -85,7 +110,7 @@ public class PlayerController : KinematicObject
 
         if (movementVec.x > moveEpsilon)
             spriteRenderer.flipX = false;
-        else if (movementVec.x < -moveEpsilon)
+        else if (movementVec.x < -moveEpsilon && !IsGrabbing) // Don't flip when grabbing
             spriteRenderer.flipX = true;
 
         animator.SetBool("Jumping", jumpState == JumpState.Jumping || jumpState == JumpState.InFlight);
