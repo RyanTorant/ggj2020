@@ -33,7 +33,9 @@ public class BrokenFixTrigger : MonoBehaviour
         if (other.CompareTag("DynamicTile"))
         {
             DynamicTile dynamicTile = other.GetComponent<DynamicTile>();
-            if (!dynamicTile.IsBeingGrabbed) {
+            if (!dynamicTile.IsBeingGrabbed && !dynamicTile.IsTouchingBroken) 
+            {
+                dynamicTile.IsTouchingBroken = true;
                 Object.Destroy(other.gameObject, updateDelay);
                 StartCoroutine(DelayedSpriteUpdate(updateDelay));
             }
@@ -45,8 +47,9 @@ public class BrokenFixTrigger : MonoBehaviour
         if (other.CompareTag("DynamicTile"))
         {
             DynamicTile dynamicTile = other.GetComponent<DynamicTile>();
-            if (!dynamicTile.IsBeingGrabbed)
+            if (!dynamicTile.IsBeingGrabbed && !dynamicTile.IsTouchingBroken)
             {
+                dynamicTile.IsTouchingBroken = true;
                 Object.Destroy(other.gameObject);
                 GetComponent<SpriteRenderer>().sprite = fixedSprite;
                 GetComponent<Collider2D>().isTrigger = false;
