@@ -21,10 +21,11 @@ public class PlayerController : KinematicObject
     public bool IsDead { get; private set; } = false;
     public float tileGrabbingDist;
     public float flipGrabOffset = 4.0f;
-    
+    GameObject horn;
+
     // Internal state
     private Collider2D collider2d;
-    public GameObject horn;
+    public GameObject hornRight,hornLeft;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private Vector2 movementVec;
@@ -39,37 +40,33 @@ public class PlayerController : KinematicObject
         animator = GetComponent<Animator>();
     }
 
-    /*DELETE?
-     * private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("DynamicTile"))
-        {
-            tileToGrab = other.gameObject;
-        }
-    }*/
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject == tileToGrab && !IsGrabbing)
-        {
-            tileToGrab = null;
-        }
-    }
 
     protected override void FixedUpdate()
     {
         if(!IsGrabbing)
         {
+            tileToGrab = null;
+            if (spriteRenderer.flipX)
+            {
+                horn = hornLeft;
+            }
+            else
+            {
+                horn = hornRight;
+            }
+
             Vector2 hornPos = new Vector2(horn.transform.position.x, horn.transform.position.y);
             Collider2D[] hornCollisionRes = Physics2D.OverlapCircleAll(hornPos, tileGrabbingDist);
 
+            GameObject touchingTile = null;
             foreach (Collider2D res in hornCollisionRes)
             {
                 if (res.gameObject.CompareTag("DynamicTile"))
                 {
-                    tileToGrab = res.gameObject;
+                    touchingTile = res.gameObject;
                 }
             }
+            tileToGrab = touchingTile;
             hornCollisionRes = null;
         }
 
@@ -100,10 +97,6 @@ public class PlayerController : KinematicObject
                 var tileBody = tileToGrab.GetComponent<Rigidbody2D>();
                 tileBody.bodyType = RigidbodyType2D.Kinematic;
 
-                /*var tileCollider = tileToGrab.GetComponent<BoxCollider2D>(); 
-                tempCollider = gameObject.AddComponent<BoxCollider2D>() as BoxCollider2D;
-                tempCollider.offset = tileToGrab.transform.position;
-                tempCollider.size = tileCollider.size;*/
             }
             else if(IsGrabbing && tileToGrab != null)
             {
@@ -118,7 +111,6 @@ public class PlayerController : KinematicObject
                 var tileBody = tileToGrab.GetComponent<Rigidbody2D>();
                 tileBody.bodyType = RigidbodyType2D.Dynamic;
 
-                //Destroy(tempCollider);
             }
         }
 
@@ -131,14 +123,12 @@ public class PlayerController : KinematicObject
             case JumpState.Jumping:
                 if (!IsGrounded)
                 {
-                    //Schedule<PlayerJumped>().player = this;
                     jumpState = JumpState.InFlight;
                 }
                 break;
             case JumpState.InFlight:
                 if (IsGrounded)
                 {
-                    //Schedule<PlayerLanded>().player = this;
                     jumpState = JumpState.Landed;
                 }
                 break;
@@ -165,21 +155,10 @@ public class PlayerController : KinematicObject
             if (movementVec.x > moveEpsilon && !IsGrabbing && spriteRenderer.flipX)
             {
                 spriteRenderer.flipX = false;
-                if (horn.transform.position.x < 0)
-                {
-                    horn.transform.localPosition = new Vector3(-1 * horn.transform.localPosition.x, horn.transform.localPosition.y, horn.transform.localPosition.z);
-                    // collider2d.offset *= new Vector2(-1, 1); 
-                }
-
             }
             else if (movementVec.x < -moveEpsilon && !IsGrabbing && !spriteRenderer.flipX) // Don't flip when grabbing
             {
                 spriteRenderer.flipX = true;
-                if (horn.transform.localPosition.x > 0)
-                {
-                    horn.transform.localPosition = new Vector3(-1 * horn.transform.localPosition.x, horn.transform.localPosition.y, horn.transform.localPosition.z);
-                    //collider2d.offset *= new Vector2(-1, 1);
-                }
 
             }
         }
