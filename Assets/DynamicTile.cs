@@ -5,6 +5,7 @@ using UnityEngine;
 public class DynamicTile : MonoBehaviour
 {
     public bool IsBeingGrabbed = false;
+    public Rigidbody2D body;
 
     // Start is called before the first frame update
     void Start()

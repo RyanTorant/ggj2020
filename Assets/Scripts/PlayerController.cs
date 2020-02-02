@@ -20,7 +20,8 @@ public class PlayerController : KinematicObject
     public bool IsGrabbing { get; private set; } = false;
     public bool IsDead { get; private set; } = false;
     public float tileGrabbingDist;
-
+    public float flipGrabOffset = 4.0f;
+    
     // Internal state
     private Collider2D collider2d;
     public GameObject horn;
@@ -29,6 +30,7 @@ public class PlayerController : KinematicObject
     private Vector2 movementVec;
     public JumpState jumpState = JumpState.Grounded;
     private GameObject tileToGrab;
+    private BoxCollider2D tempCollider;
 
     void Awake()
     {
@@ -58,19 +60,22 @@ public class PlayerController : KinematicObject
 
     protected override void FixedUpdate()
     {
-        Vector2 hornPos = new Vector2(horn.transform.position.x, horn.transform.position.y);
-        Collider2D[] hornCollisionRes = Physics2D.OverlapCircleAll(hornPos, tileGrabbingDist);
-
-        foreach (Collider2D res in hornCollisionRes)
+        if(!IsGrabbing)
         {
-            if (res.gameObject.CompareTag("DynamicTile"))
+            Vector2 hornPos = new Vector2(horn.transform.position.x, horn.transform.position.y);
+            Collider2D[] hornCollisionRes = Physics2D.OverlapCircleAll(hornPos, tileGrabbingDist);
+
+            foreach (Collider2D res in hornCollisionRes)
             {
-                tileToGrab = res.gameObject;
+                if (res.gameObject.CompareTag("DynamicTile"))
+                {
+                    tileToGrab = res.gameObject;
+                }
             }
+            hornCollisionRes = null;
         }
 
         base.FixedUpdate();
-        hornCollisionRes = null;
     }
 
     protected override void Update()
@@ -91,11 +96,16 @@ public class PlayerController : KinematicObject
                     dynamicTileFix.IsBeingGrabbed = true;
                 }
                 
-                tileToGrab.transform.SetParent(transform);
-                tileToGrab.transform.localPosition += new Vector3(0, 0.1f);
+                tileToGrab.transform.SetParent(horn.transform);
+                tileToGrab.transform.localPosition = new Vector3((spriteRenderer.flipX ? -flipGrabOffset : 0.9f) * 0.1f, -0.05f);
                 tileToGrab.transform.localScale -= new Vector3(onGrabScaleMod, onGrabScaleMod);
                 var tileBody = tileToGrab.GetComponent<Rigidbody2D>();
                 tileBody.bodyType = RigidbodyType2D.Kinematic;
+
+                /*var tileCollider = tileToGrab.GetComponent<BoxCollider2D>(); 
+                tempCollider = gameObject.AddComponent<BoxCollider2D>() as BoxCollider2D;
+                tempCollider.offset = tileToGrab.transform.position;
+                tempCollider.size = tileCollider.size;*/
             }
             else if(IsGrabbing && tileToGrab != null)
             {
@@ -109,6 +119,8 @@ public class PlayerController : KinematicObject
                 tileToGrab.transform.localScale += new Vector3(onGrabScaleMod, onGrabScaleMod);
                 var tileBody = tileToGrab.GetComponent<Rigidbody2D>();
                 tileBody.bodyType = RigidbodyType2D.Dynamic;
+
+                //Destroy(tempCollider);
             }
         }
 
