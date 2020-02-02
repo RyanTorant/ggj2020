@@ -25,13 +25,14 @@ public class EnemyController : KinematicObject
     protected override void Start()
     {
         currentState = EnemyState.Idle;
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     protected void Awake()
     {
         collider2d = GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
+
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame
@@ -89,15 +90,22 @@ public class EnemyController : KinematicObject
         if (playerDistance < playerMinDistance)
         {
             Vector2 direction = (playerTransform.position - transform.position).normalized;
-            RaycastHit2D raycastHit = Physics2D.Raycast(new Vector2(transform.position.x + direction.x, transform.position.y + direction.y), direction );
+            RaycastHit2D[] raycastHits = Physics2D.RaycastAll(transform.position, direction );
 
-            if (raycastHit.collider.CompareTag("Player"))
+            for(int i = 0; i < raycastHits.Length; ++i)
             {
-                return (transform.position.x > playerTransform.position.x ? -1 : 1);
-            }
-            else
-            {
-                return 0;
+                if (!raycastHits[i].collider.CompareTag("Enemy") && !raycastHits[i].collider.isTrigger)
+                {
+                    Debug.Log(raycastHits[i].collider.gameObject.name);
+                    if (raycastHits[i].collider.CompareTag("Player"))
+                    {
+                        return (transform.position.x > playerTransform.position.x ? -1 : 1);
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
             }
         }
 
@@ -106,6 +114,8 @@ public class EnemyController : KinematicObject
 
     protected override void ComputeVelocity()
     {
+        animator.SetFloat("VelocityX", Mathf.Abs(velocity.x) / moveSpeed);
+
         targetVelocity = movementVec * moveSpeed;
     }
 }
