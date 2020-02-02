@@ -16,11 +16,13 @@ public class PlayerController : KinematicObject
     // Public interface
     public float moveSpeed = 2.0f;
     public float jumpTakeOffSpeed = 3.5f;
+    public float onGrabScaleMod = 0.35f;
     public bool IsGrabbing { get; private set; } = false;
     public bool IsDead { get; private set; } = false;
 
     // Internal state
     private Collider2D collider2d;
+    public Collider2D colliderTrompa;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private Vector2 movementVec;
@@ -63,19 +65,21 @@ public class PlayerController : KinematicObject
                 IsGrabbing = true;
                 tileToGrab.transform.SetParent(transform);
                 tileToGrab.transform.localPosition += new Vector3(0, 0.1f);
+                tileToGrab.transform.localScale -= new Vector3(onGrabScaleMod, onGrabScaleMod);
                 var tileBody = tileToGrab.GetComponent<Rigidbody2D>();
                 tileBody.bodyType = RigidbodyType2D.Kinematic;
-                tileBody.simulated = false;
             }
             else if(IsGrabbing && tileToGrab != null)
             {
                 IsGrabbing = false;
                 tileToGrab.transform.SetParent(null);
+                tileToGrab.transform.localScale += new Vector3(onGrabScaleMod, onGrabScaleMod);
                 var tileBody = tileToGrab.GetComponent<Rigidbody2D>();
                 tileBody.bodyType = RigidbodyType2D.Dynamic;
-                tileBody.simulated = true;
             }
         }
+
+        base.isGrabbing = IsGrabbing;
 
         switch (jumpState)
         {
@@ -113,11 +117,26 @@ public class PlayerController : KinematicObject
 
         const float moveEpsilon = 0.01f;
 
-        if (movementVec.x > moveEpsilon)
+        if (movementVec.x > moveEpsilon && !IsGrabbing)
+        {
             spriteRenderer.flipX = false;
-        else if (movementVec.x < -moveEpsilon && !IsGrabbing) // Don't flip when grabbing
-            spriteRenderer.flipX = true;
+            if (colliderTrompa.offset.x < 0)
+            {
+                colliderTrompa.offset *= new Vector2(-1,1);
+                collider2d.offset *= new Vector2(-1, 1);
+            }
 
+        }
+        else if (movementVec.x < -moveEpsilon && !IsGrabbing) // Don't flip when grabbing
+        { 
+            spriteRenderer.flipX = true;
+            if (colliderTrompa.offset.x > 0)
+            {
+                colliderTrompa.offset *= new Vector2(-1, 1);
+                collider2d.offset *= new Vector2(-1, 1);
+            }
+
+        }
         animator.SetBool("Jumping", jumpState == JumpState.Jumping || jumpState == JumpState.InFlight);
         animator.SetBool("Grounded", IsGrounded);
         animator.SetBool("Grabbing", IsGrabbing);

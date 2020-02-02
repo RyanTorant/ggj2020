@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,7 +38,7 @@ public class KinematicObject : MonoBehaviour
     protected const float shellRadius = 0.01f;
 
     protected bool isOnFixedTile = false;
-
+    protected bool isGrabbing = false;
 
     /// <summary>
     /// Bounce the object's vertical velocity.
@@ -135,6 +135,9 @@ public class KinematicObject : MonoBehaviour
             var count = body.Cast(move, contactFilter, hitBuffer, distance + shellRadius);
             for (var i = 0; i < count; i++)
             {
+                if(isGrabbing && hitBuffer[i].collider.gameObject.CompareTag("DynamicTile"))
+                    continue;
+
                 var currentNormal = hitBuffer[i].normal;
 
                 //is this surface flat enough to land on?
