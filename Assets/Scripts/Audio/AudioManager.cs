@@ -35,7 +35,7 @@ public class AudioManager : MonoBehaviour
     private int audioSourcesNum = 4;
     private bool isMute;
     private float musicVolume=0.5f;
-    private float soundFXVolume=0.5f;
+    private float soundFXVolume=0.8f;
 
     private IEnumerator moveFadeoutCoroutine;
     private IEnumerator moveFadeinCoroutine;
