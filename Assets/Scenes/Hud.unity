@@ -398,10 +398,10 @@ MonoBehaviour:
     type: 3}
   gameOverText: {fileID: 168443829}
   restartButton: {fileID: 873606639}
-  EnemyBar: {fileID: 0}
+  EnemyBar: {fileID: 2054922735}
   enemiesCounter: 0
   startingEnemies: 0
-  offset: {x: 20, y: 6}
+  parent: {fileID: 2054922735}
 --- !u!1 &640050254
 GameObject:
   m_ObjectHideFlags: 0
@@ -829,6 +829,12 @@ PrefabInstance:
 --- !u!224 &2054922734 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 244102120508662424, guid: e0021d026e90a9b4f8273830e2cd8625,
+    type: 3}
+  m_PrefabInstance: {fileID: 2054922733}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2054922735 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3753054156642980212, guid: e0021d026e90a9b4f8273830e2cd8625,
     type: 3}
   m_PrefabInstance: {fileID: 2054922733}
   m_PrefabAsset: {fileID: 0}
