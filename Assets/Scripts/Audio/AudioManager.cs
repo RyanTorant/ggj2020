@@ -93,6 +93,7 @@ public class AudioManager : MonoBehaviour
     {
         if (instance != null)
         {
+            instance.fxAudioSource.volume = instance.soundFXVolume;
             instance.fxAudioSource.PlayOneShot(instance.soundsFX[(int)sound]);
         }
     }
