@@ -143,7 +143,8 @@ public class KinematicObject : MonoBehaviour
                 isOnEnemy = hitBuffer[i].collider.CompareTag("Enemy") || isOnEnemy;
                 isOnPlayer = hitBuffer[i].collider.CompareTag("Player") || isOnPlayer;
 
-                if (isGrabbing && hitBuffer[i].collider.gameObject.CompareTag("DynamicTile"))
+                var tile = hitBuffer[i].collider.gameObject.GetComponent<DynamicTile>();
+                if (tile && tile.IsBeingGrabbed)
                     continue;
 
                 var currentNormal = hitBuffer[i].normal;
