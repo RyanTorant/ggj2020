@@ -7,7 +7,7 @@ public class HudController : MonoBehaviour
 {
     public GameObject EnemyImage;
     public Text gameOverText;
-    public Button restartButton;
+    public GameObject pausePanel;
     public GameObject EnemyBar;
 
     public int enemiesCounter;
@@ -34,16 +34,16 @@ public class HudController : MonoBehaviour
         GameObject cam = GameObject.FindWithTag("HudCam");
         DestroyImmediate(cam);
         gameOverText.enabled = false;
-        restartButton.gameObject.SetActive(false);
+        pausePanel.gameObject.SetActive(false);
         EnemyBar.SetActive(true);
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("Pause"))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             isPause = !isPause;
-            restartButton.gameObject.SetActive(isPause);
+            pausePanel.gameObject.SetActive(isPause);
             Time.timeScale = isPause ? 0 : 1;
         }
     }
@@ -60,7 +60,7 @@ public class HudController : MonoBehaviour
     public void GameOver(bool youWon)
     {
         gameOverText.enabled = true;
-        restartButton.gameObject.SetActive(true);
+        pausePanel.gameObject.SetActive(true);
         if (youWon)
         {
             gameOverText.text = "YOU WIN";
