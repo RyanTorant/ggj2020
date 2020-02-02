@@ -86,23 +86,26 @@ public class PlayerController : KinematicObject
             {
                 IsGrabbing = true;
                 DynamicTile dynamicTileFix = tileToGrab.GetComponent<DynamicTile>();
-                dynamicTileFix.IsBeingGrabbed = true;
+                if (dynamicTileFix != null)
+                {
+                    dynamicTileFix.IsBeingGrabbed = true;
+                }
+                
                 tileToGrab.transform.SetParent(transform);
                 tileToGrab.transform.localPosition += new Vector3(0, 0.1f);
                 tileToGrab.transform.localScale -= new Vector3(onGrabScaleMod, onGrabScaleMod);
                 var tileBody = tileToGrab.GetComponent<Rigidbody2D>();
-<<<<<<< HEAD
 
                 //tileBody.bodyType = RigidbodyType2D.Kinematic;
-=======
-                tileBody.bodyType = RigidbodyType2D.Kinematic;
->>>>>>> 30ebb7fce4821d9ea9fbe8000d784c01a4063e89
             }
             else if(IsGrabbing && tileToGrab != null)
             {
                 IsGrabbing = false;
                 DynamicTile dynamicTileFix = tileToGrab.GetComponent<DynamicTile>();
-                dynamicTileFix.IsBeingGrabbed = false;
+                if (dynamicTileFix != null)
+                {
+                    dynamicTileFix.IsBeingGrabbed = false;
+                }
                 tileToGrab.transform.SetParent(null);
                 tileToGrab.transform.localScale += new Vector3(onGrabScaleMod, onGrabScaleMod);
                 var tileBody = tileToGrab.GetComponent<Rigidbody2D>();
