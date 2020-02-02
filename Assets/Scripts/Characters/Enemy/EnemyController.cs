@@ -114,7 +114,7 @@ public class EnemyController : KinematicObject
 
     protected override void ComputeVelocity()
     {
-        animator.SetFloat("VelocityX", Mathf.Abs(velocity.x) / moveSpeed);
+        animator.SetFloat("VelocityX", velocity.x / moveSpeed);
 
         targetVelocity = movementVec * moveSpeed;
     }
