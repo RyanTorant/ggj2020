@@ -9,5 +9,6 @@ public class HudLoad : MonoBehaviour
     {
         SceneManager.LoadScene("Hud", LoadSceneMode.Additive);
         AudioManager.PlayMusic(Music.LevelMusic, 0.5f);
+        Time.timeScale = 1;
     }
 }

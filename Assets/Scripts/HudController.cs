@@ -10,19 +10,21 @@ public class HudController : MonoBehaviour
     public Button restartButton;
     public GameObject EnemyBar;
 
-    int enemiesCounter;
+    public int enemiesCounter;
+    public int startingEnemies;
     Vector3 firstPosition;
     Vector3 margin;
     Canvas mainCanvas;
     Vector2 offset = new Vector2(20,-20);
     List<GameObject> enemiesHudImage = new List<GameObject>();
+    bool isPause = false;
     
     
     // Start is called before the first frame update
     void Start()
     {
         mainCanvas = GameObject.FindGameObjectWithTag("Canvas").GetComponent<Canvas>();
-        enemiesCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        startingEnemies = enemiesCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
         float xMin = mainCanvas.GetComponent<RectTransform>().position.x + mainCanvas.GetComponent<RectTransform>().rect.xMin + offset.x;
         float yMax = mainCanvas.GetComponent<RectTransform>().position.y + mainCanvas.GetComponent<RectTransform>().rect.yMax + offset.y;
         firstPosition = new Vector3(xMin, yMax, 0);
@@ -36,13 +38,23 @@ public class HudController : MonoBehaviour
         EnemyBar.SetActive(true);
     }
 
-    public int KillEnemy()
+    private void Update()
     {
-        enemiesCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        if (Input.GetButtonDown("Pause"))
+        {
+            isPause = !isPause;
+            restartButton.gameObject.SetActive(isPause);
+            Time.timeScale = isPause ? 0 : 1;
+        }
+    }
+
+    public void KillEnemy()
+    {
+        //enemiesCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        enemiesCounter--;
         GameObject imageToDestroy = enemiesHudImage[enemiesHudImage.Count - 1];
         enemiesHudImage.RemoveAt(enemiesHudImage.Count - 1);
         GameObject.Destroy(imageToDestroy);
-        return enemiesHudImage.Count;
     }
 
     public void GameOver(bool youWon)
