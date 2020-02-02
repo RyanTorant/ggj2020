@@ -32,8 +32,11 @@ public class BrokenFixTrigger : MonoBehaviour
     {
         if (other.CompareTag("DynamicTile"))
         {
-            Object.Destroy(other.gameObject, updateDelay);
-            StartCoroutine(DelayedSpriteUpdate(updateDelay));
+            DynamicTile dynamicTile = other.GetComponent<DynamicTile>();
+            if (!dynamicTile.IsBeingGrabbed) {
+                Object.Destroy(other.gameObject, updateDelay);
+                StartCoroutine(DelayedSpriteUpdate(updateDelay));
+            }
         }
     }
 }

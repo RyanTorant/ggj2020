@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DynamicTile : MonoBehaviour
+public class DynamicTile : KinematicObject
 {
     public bool IsBeingGrabbed = false;
     private Rigidbody2D body;
@@ -19,4 +19,7 @@ public class DynamicTile : MonoBehaviour
         var vel = Physics2D.gravity * Time.deltaTime;
         //body.position = body.position + Physics2D.gravity * Time.deltaTime;
     }
+
+    
 }
+
