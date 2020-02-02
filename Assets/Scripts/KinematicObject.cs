@@ -136,7 +136,7 @@ public class KinematicObject : MonoBehaviour
             var count = body.Cast(move, contactFilter, hitBuffer, distance + shellRadius);
             for (var i = 0; i < count; i++)
             {
-                if(isGrabbing && hitBuffer[i].collider.gameObject.CompareTag("DynamicTile"))
+                if (isGrabbing && hitBuffer[i].collider.gameObject.CompareTag("DynamicTile"))
                     continue;
 
                 var currentNormal = hitBuffer[i].normal;
