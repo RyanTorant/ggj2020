@@ -11,12 +11,11 @@ public class DynamicTile : MonoBehaviour
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        body.bodyType = RigidbodyType2D.Static;
     }
 
     // Update is called once per frame
     void Update()
     {
-        var vel = Physics2D.gravity * Time.deltaTime;
-        //body.position = body.position + Physics2D.gravity * Time.deltaTime;
     }
 }
