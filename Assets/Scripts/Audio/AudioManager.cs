@@ -47,10 +47,12 @@ public class AudioManager : MonoBehaviour
             if (isMusic)
             {
                 instance.musicVolume = volume;
+                instance.musicAudioSource1.volume = volume;
             }
             else
             {
                 instance.soundFXVolume = volume;
+                instance.fxAudioSource.volume = volume;
             }
         }
     }

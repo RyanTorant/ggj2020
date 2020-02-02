@@ -397,8 +397,8 @@ MonoBehaviour:
   EnemyImage: {fileID: 4377363074114194518, guid: 5e652528eba7e724f8119e764f7379e2,
     type: 3}
   gameOverText: {fileID: 168443829}
-  EnemyBar: {fileID: 2054922735}
   pausePanel: {fileID: 1505162486}
+  EnemyBar: {fileID: 2054922735}
   enemiesCounter: 0
   startingEnemies: 0
   parent: {fileID: 2054922735}

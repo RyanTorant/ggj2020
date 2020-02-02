@@ -25,11 +25,11 @@ public class HudController : MonoBehaviour
     {
         Vector2 offset = new Vector2(parent.GetComponent<RectTransform>().rect.width/3f, parent.GetComponent<RectTransform>().rect.height/2f);
         startingEnemies = enemiesCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
-        float xMin = parent.GetComponent<RectTransform>().position.x + parent.GetComponent<RectTransform>().rect.xMin - offset.x / 2.0f;
+        float xMin = parent.GetComponent<RectTransform>().position.x + parent.GetComponent<RectTransform>().rect.xMin + offset.x/2.0f;
         float yMax = parent.GetComponent<RectTransform>().position.y + parent.GetComponent<RectTransform>().rect.yMin + offset.y;
         firstPosition = new Vector3(xMin, yMax, 0);
         Image enemySprite = EnemyImage.GetComponent<Image>();
-        margin = new Vector3(enemySprite.rectTransform.sizeDelta.x * 3f, 0, 0);
+        margin = new Vector3(enemySprite.rectTransform.sizeDelta.x*1.5f, 0, 0);
         HudLoad();
         GameObject cam = GameObject.FindWithTag("HudCam");
         DestroyImmediate(cam);
