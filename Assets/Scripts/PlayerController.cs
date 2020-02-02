@@ -37,8 +37,6 @@ public class PlayerController : KinematicObject
         collider2d = GetComponent<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        AudioManager.PlayMusic(0);
-
     }
 
     /*DELETE?
