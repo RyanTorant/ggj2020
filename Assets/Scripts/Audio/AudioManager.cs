@@ -10,10 +10,14 @@ public enum SFX
     Dead
 };
 
+public enum Music
+{
+    MainMenudMusic,
+    LevelMusic
+};
+
 public class AudioManager : MonoBehaviour
 {
-    public static readonly int MainMenuMusic = 0;
-
     public AudioClip[] soundsFX;
     public AudioClip[] musics;
 
@@ -93,7 +97,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public static void PlayMusic(int music, float fade = 0.0f)
+    public static void PlayMusic(Music music, float fade = 0.0f)
     {
         if (instance != null)
         {
@@ -101,7 +105,7 @@ public class AudioManager : MonoBehaviour
             instance.musicAudioSource1 = instance.musicAudioSource2;
             instance.musicAudioSource2 = audioSourceSwap;
 
-            instance.musicAudioSource1.clip = instance.musics[music];
+            instance.musicAudioSource1.clip = instance.musics[(int)music];
 
             instance.StartCoroutine(FadeAudio(fade));
         }

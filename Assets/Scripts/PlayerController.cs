@@ -132,41 +132,48 @@ public class PlayerController : KinematicObject
 
     protected override void ComputeVelocity()
     {
-        if (jumpState == JumpState.PrepareToJump && IsGrounded)
+        if (!(isOnEnemy || IsDead))
         {
-            velocity.y = jumpTakeOffSpeed;
-            jumpState = JumpState.Jumping;
-        }
-
-        const float moveEpsilon = 0.01f;
-
-        if (movementVec.x > moveEpsilon && !IsGrabbing && spriteRenderer.flipX)
-        {
-            spriteRenderer.flipX = false;
-            if (horn.transform.position.x < 0)
+            if (jumpState == JumpState.PrepareToJump && IsGrounded)
             {
-                horn.transform.localPosition = new Vector3(-1 * horn.transform.localPosition.x, horn.transform.localPosition.y, horn.transform.localPosition.z);
-               // collider2d.offset *= new Vector2(-1, 1); 
+                velocity.y = jumpTakeOffSpeed;
+                jumpState = JumpState.Jumping;
             }
 
-        }
-        else if (movementVec.x < -moveEpsilon && !IsGrabbing && !spriteRenderer.flipX) // Don't flip when grabbing
-        { 
-            spriteRenderer.flipX = true;
-            if (horn.transform.localPosition.x > 0)
-              {
-                  horn.transform.localPosition = new Vector3(-1 * horn.transform.localPosition.x, horn.transform.localPosition.y, horn.transform.localPosition.z);
-                  //collider2d.offset *= new Vector2(-1, 1);
-              }
+            const float moveEpsilon = 0.01f;
 
+            if (movementVec.x > moveEpsilon && !IsGrabbing && spriteRenderer.flipX)
+            {
+                spriteRenderer.flipX = false;
+                if (horn.transform.position.x < 0)
+                {
+                    horn.transform.localPosition = new Vector3(-1 * horn.transform.localPosition.x, horn.transform.localPosition.y, horn.transform.localPosition.z);
+                    // collider2d.offset *= new Vector2(-1, 1); 
+                }
+
+            }
+            else if (movementVec.x < -moveEpsilon && !IsGrabbing && !spriteRenderer.flipX) // Don't flip when grabbing
+            {
+                spriteRenderer.flipX = true;
+                if (horn.transform.localPosition.x > 0)
+                {
+                    horn.transform.localPosition = new Vector3(-1 * horn.transform.localPosition.x, horn.transform.localPosition.y, horn.transform.localPosition.z);
+                    //collider2d.offset *= new Vector2(-1, 1);
+                }
+
+            }
         }
+
         animator.SetBool("Jumping", jumpState == JumpState.Jumping || jumpState == JumpState.InFlight);
         animator.SetBool("Grounded", IsGrounded);
         animator.SetBool("Grabbing", IsGrabbing);
         animator.SetBool("Dead", isOnEnemy || IsDead);
         animator.SetFloat("VelocityX", Mathf.Abs(velocity.x) / moveSpeed);
 
-        targetVelocity = movementVec * moveSpeed;
+        if (!(isOnEnemy || IsDead))
+        {
+            targetVelocity = movementVec * moveSpeed;
+        }
     }
 
     public void Kill()
