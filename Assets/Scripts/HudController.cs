@@ -35,13 +35,13 @@ public class HudController : MonoBehaviour
         restartButton.gameObject.SetActive(false);
     }
 
-    public int KillEnemy()
+    public void KillEnemy()
     {
-        enemiesCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        //enemiesCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        enemiesCounter--;
         GameObject imageToDestroy = enemiesHudImage[enemiesHudImage.Count - 1];
         enemiesHudImage.RemoveAt(enemiesHudImage.Count - 1);
         GameObject.Destroy(imageToDestroy);
-        return enemiesHudImage.Count;
     }
 
     public void GameOver(bool youWon)

@@ -37,10 +37,10 @@ public class EnemyDeadBehaviour : StateMachineBehaviour
         HudController HUD = GameObject.FindObjectOfType<HudController>();
         if (HUD != null)
         {
-            int enemyCount = HUD.KillEnemy();
+            HUD.KillEnemy();
 
             // Check if you won
-            if (enemyCount == 0)
+            if (HUD.enemiesCounter == 0)
             {
                 HUD.GameOver(true);
             }
