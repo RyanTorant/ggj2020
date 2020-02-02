@@ -43,7 +43,7 @@ public class PlayerController : KinematicObject
     }
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject == tileToGrab)
+        if (other.gameObject == tileToGrab && !IsGrabbing)
         {
             tileToGrab = null;
         }
@@ -63,12 +63,17 @@ public class PlayerController : KinematicObject
                 IsGrabbing = true;
                 tileToGrab.transform.SetParent(transform);
                 tileToGrab.transform.localPosition += new Vector3(0, 0.1f);
-                tileToGrab.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+                var tileBody = tileToGrab.GetComponent<Rigidbody2D>();
+                tileBody.bodyType = RigidbodyType2D.Kinematic;
+                tileBody.simulated = false;
             }
             else if(IsGrabbing && tileToGrab != null)
             {
                 IsGrabbing = false;
                 tileToGrab.transform.SetParent(null);
+                var tileBody = tileToGrab.GetComponent<Rigidbody2D>();
+                tileBody.bodyType = RigidbodyType2D.Dynamic;
+                tileBody.simulated = true;
             }
         }
 
