@@ -439,5 +439,5 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3eda2160ff2ef7e4a8c279692b98a925, type: 3}
   musics:
   - {fileID: 8300000, guid: e0e6d5c7d92ec2d45b6c6301a228467d, type: 3}
-  - {fileID: 8300000, guid: e0e6d5c7d92ec2d45b6c6301a228467d, type: 3}
+  - {fileID: 8300000, guid: a3070973f621ffb45a6a9051f7604809, type: 3}
   characterMove: {fileID: 8300000, guid: 293cd928863f19e438694b2e0b3f3ffc, type: 3}

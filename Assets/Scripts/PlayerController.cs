@@ -25,7 +25,7 @@ public class PlayerController : KinematicObject
 
     // Internal state
     private Collider2D collider2d;
-    public GameObject hornRight,hornLeft;
+    public GameObject hornRight, hornLeft;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private Vector2 movementVec;
@@ -43,7 +43,7 @@ public class PlayerController : KinematicObject
 
     protected override void FixedUpdate()
     {
-        if(!IsGrabbing)
+        if (!IsGrabbing)
         {
             tileToGrab = null;
             if (spriteRenderer.flipX)
@@ -82,7 +82,7 @@ public class PlayerController : KinematicObject
 
         if (Input.GetButtonDown("Grab"))
         {
-            if(!IsGrabbing && tileToGrab != null)
+            if (!IsGrabbing && tileToGrab != null)
             {
                 IsGrabbing = true;
                 DynamicTile dynamicTileFix = tileToGrab.GetComponent<DynamicTile>();
@@ -90,7 +90,7 @@ public class PlayerController : KinematicObject
                 {
                     dynamicTileFix.IsBeingGrabbed = true;
                 }
-                
+
                 tileToGrab.transform.SetParent(horn.transform);
                 tileToGrab.transform.localPosition = new Vector3((spriteRenderer.flipX ? -flipGrabOffset : 0.9f) * 0.1f, -0.05f);
                 tileToGrab.transform.localScale -= new Vector3(onGrabScaleMod, onGrabScaleMod);
@@ -98,7 +98,7 @@ public class PlayerController : KinematicObject
                 tileBody.bodyType = RigidbodyType2D.Kinematic;
 
             }
-            else if(IsGrabbing && tileToGrab != null)
+            else if (IsGrabbing && tileToGrab != null)
             {
                 IsGrabbing = false;
                 DynamicTile dynamicTileFix = tileToGrab.GetComponent<DynamicTile>();

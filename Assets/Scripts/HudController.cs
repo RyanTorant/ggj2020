@@ -8,13 +8,14 @@ public class HudController : MonoBehaviour
     public GameObject EnemyImage;
     public Text gameOverText;
     public Button restartButton;
+    public GameObject EnemyBar;
 
     public int enemiesCounter;
     public int startingEnemies;
     Vector3 firstPosition;
     Vector3 margin;
     Canvas mainCanvas;
-    Vector2 offset = new Vector2(20,-20);
+    public Vector2 offset = new Vector2(20,-20);
     List<GameObject> enemiesHudImage = new List<GameObject>();
     bool isPause = false;
     
@@ -34,6 +35,7 @@ public class HudController : MonoBehaviour
         DestroyImmediate(cam);
         gameOverText.enabled = false;
         restartButton.gameObject.SetActive(false);
+        EnemyBar.SetActive(true);
     }
 
     private void Update()
