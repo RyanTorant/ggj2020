@@ -30,7 +30,26 @@ public class AudioManager : MonoBehaviour
 
     private int audioSourcesNum = 4;
     private bool isMute;
-    private float volume = 1;
+    private float musicVolume=0.5f;
+    private float soundFXVolume=0.5f;
+
+    private IEnumerator moveFadeoutCoroutine;
+    private IEnumerator moveFadeinCoroutine;
+
+    public static void setVolume(bool isMusic, float volume)
+    {
+        if (instance != null)
+        {
+            if (isMusic)
+            {
+                instance.musicVolume = volume;
+            }
+            else
+            {
+                instance.soundFXVolume = volume;
+            }
+        }
+    }
 
     void OnEnable()
     {
@@ -100,9 +119,19 @@ public class AudioManager : MonoBehaviour
     {
         if (instance != null)
         {
-            instance.moveAudioSource.volume = 0;
+            if (instance.moveFadeoutCoroutine != null)
+            {
+                instance.StopCoroutine(instance.moveFadeoutCoroutine);
+                instance.moveFadeoutCoroutine = null;
+            }
+            else
+            {
+                instance.moveAudioSource.volume = 0;
+            }
+
             instance.moveAudioSource.Play();
-            instance.StartCoroutine(FadeIn(instance.moveAudioSource, fade));
+            instance.moveFadeinCoroutine = FadeIn(instance.moveAudioSource, fade);
+            instance.StartCoroutine(instance.moveFadeinCoroutine);
         }
     }
 
@@ -110,7 +139,14 @@ public class AudioManager : MonoBehaviour
     {
         if (instance != null)
         {
-            instance.StartCoroutine(FadeOut(instance.moveAudioSource, fade));
+            if (instance.moveFadeinCoroutine != null)
+            {
+                instance.StopCoroutine(instance.moveFadeinCoroutine);
+                instance.moveFadeinCoroutine = null;
+            }
+
+            instance.moveFadeoutCoroutine = FadeOut(instance.moveAudioSource, fade);
+            instance.StartCoroutine(instance.moveFadeoutCoroutine);
         }
     }
 
@@ -118,7 +154,7 @@ public class AudioManager : MonoBehaviour
     {
         if (fadeTime == 0.0f)
         {
-            instance.musicAudioSource1.volume = instance.volume;
+            instance.musicAudioSource1.volume = instance.musicVolume;
             instance.musicAudioSource2.volume = 0.0f;
             instance.musicAudioSource2.Stop();
         }
@@ -126,14 +162,14 @@ public class AudioManager : MonoBehaviour
         {
             while (instance.musicAudioSource2.volume > 0)
             {
-                float deltaVolume = instance.volume * (Time.deltaTime / fadeTime);
+                float deltaVolume = instance.musicVolume * (Time.deltaTime / fadeTime);
                 instance.musicAudioSource2.volume -= deltaVolume;
                 instance.musicAudioSource1.volume += deltaVolume;
 
                 yield return null;
             }
 
-            instance.musicAudioSource1.volume = instance.volume;
+            instance.musicAudioSource1.volume = instance.musicVolume;
             instance.musicAudioSource2.volume = 0;
             instance.musicAudioSource2.Stop();
         }
@@ -150,8 +186,8 @@ public class AudioManager : MonoBehaviour
         {
             while (audio.volume > 0)
             {
-                float deltaVolume = instance.volume * (Time.deltaTime / fadeTime);
-                audio.volume -= deltaVolume;
+                float deltaVolume = instance.musicVolume * (Time.deltaTime / fadeTime);
+                 audio.volume -= deltaVolume;
 
                 yield return null;
             }
@@ -159,25 +195,37 @@ public class AudioManager : MonoBehaviour
             audio.volume = 0;
             audio.Stop();
         }
+
+        instance.moveFadeoutCoroutine = null;
     }
     public static IEnumerator FadeIn(AudioSource audio, float fadeTime)
     {
         if (fadeTime == 0.0f)
         {
-            audio.volume = instance.volume;
+            audio.volume = instance.musicVolume;
         }
         else
         {
             while (audio.volume > 0)
             {
-                float deltaVolume = instance.volume * (Time.deltaTime / fadeTime);
+                float deltaVolume = instance.musicVolume * (Time.deltaTime / fadeTime);
                 audio.volume += deltaVolume;
 
                 yield return null;
             }
-
-            audio.volume = instance.volume;
+            audio.volume = instance.musicVolume; // BUG !!! this should be separated when using for fx!!
         }
+
+        instance.moveFadeinCoroutine = null;
     }
 
+    public static float GetMusicVol()
+    {
+        return instance.musicVolume;
+    }
+
+    public static float GetFXVol()
+    {
+        return instance.soundFXVolume;
+    }
 }
