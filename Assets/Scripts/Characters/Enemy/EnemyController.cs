@@ -61,6 +61,15 @@ public class EnemyController : KinematicObject
             currentState = EnemyState.Dead;
         }
 
+        if (isOnPlayer && playerTransform != null)
+        {
+            PlayerController playerController = playerTransform.gameObject.GetComponent<PlayerController>();
+            if (playerController != null)
+            {
+                playerController.Kill();
+            }
+        }
+
         switch (currentState)
         {
             case EnemyState.Idle:
