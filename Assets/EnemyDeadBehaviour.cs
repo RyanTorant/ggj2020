@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EnemyDeadBehaviour : StateMachineBehaviour
 {
+    public Color BadColor;
+    public Color GoodColor;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{
@@ -23,7 +26,14 @@ public class EnemyDeadBehaviour : StateMachineBehaviour
         HudController HUD = GameObject.FindObjectOfType<HudController>();
         if (HUD != null)
         {
-            if(HUD.KillEnemy() == 0)
+            int enemyCount = HUD.KillEnemy();
+
+            // Change the background
+            var cam = GameObject.Find("MainCamera").GetComponent<Camera>();
+            cam.backgroundColor = Color.Lerp(BadColor, GoodColor, (float)enemyCount / (float)HUD.startingEnemies);
+
+            // Check if you won
+            if (enemyCount == 0)
             {
                 HUD.GameOver(true);
             }
