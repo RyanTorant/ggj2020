@@ -38,6 +38,7 @@ public class KinematicObject : MonoBehaviour
     protected const float shellRadius = 0.01f;
 
     protected bool isOnFixedTile = false;
+    protected bool isOnEnemy = false;
     protected bool isGrabbing = false;
 
     /// <summary>
@@ -171,6 +172,7 @@ public class KinematicObject : MonoBehaviour
                 distance = modifiedDistance < distance ? modifiedDistance : distance;
 
                 isOnFixedTile = hitBuffer[i].collider.CompareTag("FixedTile");
+                isOnEnemy = hitBuffer[i].collider.CompareTag("Enemy");
             }
         }
         body.position = body.position + move.normalized * distance;
