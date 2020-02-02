@@ -39,4 +39,19 @@ public class BrokenFixTrigger : MonoBehaviour
             }
         }
     }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("DynamicTile"))
+        {
+            DynamicTile dynamicTile = other.GetComponent<DynamicTile>();
+            if (!dynamicTile.IsBeingGrabbed)
+            {
+                Object.Destroy(other.gameObject);
+                GetComponent<SpriteRenderer>().sprite = fixedSprite;
+                GetComponent<Collider2D>().isTrigger = false;
+                gameObject.tag = "FixedTile";
+            }
+        }
+    }
 }
