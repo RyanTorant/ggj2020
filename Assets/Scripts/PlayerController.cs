@@ -21,6 +21,7 @@ public class PlayerController : KinematicObject
 
     // Internal state
     private Collider2D collider2d;
+    public Collider2D colliderTrompa;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private Vector2 movementVec;
@@ -114,10 +115,23 @@ public class PlayerController : KinematicObject
         const float moveEpsilon = 0.01f;
 
         if (movementVec.x > moveEpsilon)
+        {
             spriteRenderer.flipX = false;
-        else if (movementVec.x < -moveEpsilon && !IsGrabbing) // Don't flip when grabbing
-            spriteRenderer.flipX = true;
+            if (colliderTrompa.offset.x < 0)
+            {
+                colliderTrompa.offset *= new Vector2(-1,1);
+            }
 
+        }
+        else if (movementVec.x < -moveEpsilon && !IsGrabbing) // Don't flip when grabbing
+        { 
+            spriteRenderer.flipX = true;
+            if (colliderTrompa.offset.x > 0)
+            {
+                colliderTrompa.offset *= new Vector2(-1, 1);
+            }
+
+        }
         animator.SetBool("Jumping", jumpState == JumpState.Jumping || jumpState == JumpState.InFlight);
         animator.SetBool("Grounded", IsGrounded);
         animator.SetBool("Grabbing", IsGrabbing);
