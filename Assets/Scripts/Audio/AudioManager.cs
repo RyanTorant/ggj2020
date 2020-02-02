@@ -156,6 +156,7 @@ public class AudioManager : MonoBehaviour
 
     public static IEnumerator FadeAudio(float fadeTime)
     {
+        instance.musicAudioSource1.Play();
         if (fadeTime == 0.0f)
         {
             instance.musicAudioSource1.volume = instance.musicVolume;
