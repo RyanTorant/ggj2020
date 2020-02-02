@@ -65,7 +65,6 @@ public class PlayerController : KinematicObject
                 tileToGrab.transform.localPosition += new Vector3(0, 0.1f);
                 var tileBody = tileToGrab.GetComponent<Rigidbody2D>();
                 tileBody.bodyType = RigidbodyType2D.Kinematic;
-                tileBody.simulated = false;
             }
             else if(IsGrabbing && tileToGrab != null)
             {
@@ -73,9 +72,10 @@ public class PlayerController : KinematicObject
                 tileToGrab.transform.SetParent(null);
                 var tileBody = tileToGrab.GetComponent<Rigidbody2D>();
                 tileBody.bodyType = RigidbodyType2D.Dynamic;
-                tileBody.simulated = true;
             }
         }
+
+        base.isGrabbing = IsGrabbing;
 
         switch (jumpState)
         {
