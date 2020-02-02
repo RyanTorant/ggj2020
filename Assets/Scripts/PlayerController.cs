@@ -114,12 +114,13 @@ public class PlayerController : KinematicObject
 
         const float moveEpsilon = 0.01f;
 
-        if (movementVec.x > moveEpsilon)
+        if (movementVec.x > moveEpsilon && !IsGrabbing)
         {
             spriteRenderer.flipX = false;
             if (colliderTrompa.offset.x < 0)
             {
                 colliderTrompa.offset *= new Vector2(-1,1);
+                collider2d.offset *= new Vector2(-1, 1);
             }
 
         }
@@ -129,6 +130,7 @@ public class PlayerController : KinematicObject
             if (colliderTrompa.offset.x > 0)
             {
                 colliderTrompa.offset *= new Vector2(-1, 1);
+                collider2d.offset *= new Vector2(-1, 1);
             }
 
         }
