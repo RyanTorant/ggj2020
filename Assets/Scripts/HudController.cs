@@ -9,7 +9,8 @@ public class HudController : MonoBehaviour
     public Text gameOverText;
     public Button restartButton;
 
-    int enemiesCounter;
+    public int enemiesCounter;
+    public int startingEnemies;
     Vector3 firstPosition;
     Vector3 margin;
     Canvas mainCanvas;
@@ -22,7 +23,7 @@ public class HudController : MonoBehaviour
     void Start()
     {
         mainCanvas = GameObject.FindGameObjectWithTag("Canvas").GetComponent<Canvas>();
-        enemiesCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        startingEnemies = enemiesCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
         float xMin = mainCanvas.GetComponent<RectTransform>().position.x + mainCanvas.GetComponent<RectTransform>().rect.xMin + offset.x;
         float yMax = mainCanvas.GetComponent<RectTransform>().position.y + mainCanvas.GetComponent<RectTransform>().rect.yMax + offset.y;
         firstPosition = new Vector3(xMin, yMax, 0);
@@ -45,13 +46,13 @@ public class HudController : MonoBehaviour
         }
     }
 
-    public int KillEnemy()
+    public void KillEnemy()
     {
-        enemiesCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        //enemiesCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        enemiesCounter--;
         GameObject imageToDestroy = enemiesHudImage[enemiesHudImage.Count - 1];
         enemiesHudImage.RemoveAt(enemiesHudImage.Count - 1);
         GameObject.Destroy(imageToDestroy);
-        return enemiesHudImage.Count;
     }
 
     public void GameOver(bool youWon)

@@ -395,6 +395,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fa5e6f8c3b91476a82f1b26b5483992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BadColor: {r: 0.72156864, g: 0.6431373, b: 0.2509804, a: 0}
+  GoodColor: {r: 0.9528302, g: 0.9131418, b: 0.68765575, a: 0}
 --- !u!1101 &1952553224002589983
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
