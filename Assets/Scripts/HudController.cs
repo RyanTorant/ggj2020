@@ -6,12 +6,16 @@ using UnityEngine.UI;
 public class HudController : MonoBehaviour
 {
     public GameObject EnemyImage;
+    public Text gameOverText;
+    public Button restartButton;
+
     int enemiesCounter;
     Vector3 firstPosition;
     Vector3 margin;
     Canvas mainCanvas;
     Vector2 offset = new Vector2(20,-20);
     List<GameObject> enemiesHudImage = new List<GameObject>();
+    
     
     // Start is called before the first frame update
     void Start()
@@ -26,14 +30,33 @@ public class HudController : MonoBehaviour
         HudLoad();
         GameObject cam = GameObject.FindWithTag("HudCam");
         DestroyImmediate(cam);
+        gameOverText.enabled = false;
+        restartButton.gameObject.SetActive(false);
     }
 
-    public void KillEnemy()
+    public int KillEnemy()
     {
         enemiesCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
         GameObject imageToDestroy = enemiesHudImage[enemiesHudImage.Count - 1];
         enemiesHudImage.RemoveAt(enemiesHudImage.Count - 1);
         GameObject.Destroy(imageToDestroy);
+        return enemiesHudImage.Count;
+    }
+
+    public void GameOver(bool youWon)
+    {
+        gameOverText.enabled = true;
+        restartButton.gameObject.SetActive(true);
+        if (youWon)
+        {
+            gameOverText.text = "YOU WIN";
+            gameOverText.color = Color.green;
+        }
+        else
+        {
+            gameOverText.text = "GAME OVER";
+            gameOverText.color = Color.gray;
+        }
     }
 
     void HudLoad()

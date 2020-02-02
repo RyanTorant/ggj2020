@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DeadBehaviour : StateMachineBehaviour
 {
@@ -8,6 +9,15 @@ public class DeadBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         AudioManager.PlaySound(SFX.Dead);
+
+        HudController HUD = GameObject.FindObjectOfType<HudController>();
+        if (HUD != null)
+        {
+            if (HUD.KillEnemy() == 0)
+            {
+                HUD.GameOver(false);
+            }
+        }
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
