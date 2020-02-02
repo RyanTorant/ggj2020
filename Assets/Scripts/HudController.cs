@@ -14,8 +14,8 @@ public class HudController : MonoBehaviour
     public int startingEnemies;
     Vector3 firstPosition;
     Vector3 margin;
-    Canvas mainCanvas;
-    public Vector2 offset = new Vector2(20,-20);
+    public GameObject parent;
+    
     List<GameObject> enemiesHudImage = new List<GameObject>();
     bool isPause = false;
     
@@ -23,13 +23,13 @@ public class HudController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mainCanvas = GameObject.FindGameObjectWithTag("Canvas").GetComponent<Canvas>();
+        Vector2 offset = new Vector2(parent.GetComponent<RectTransform>().rect.width/3f, parent.GetComponent<RectTransform>().rect.height/2f);
         startingEnemies = enemiesCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
-        float xMin = mainCanvas.GetComponent<RectTransform>().position.x + mainCanvas.GetComponent<RectTransform>().rect.xMin + offset.x;
-        float yMax = mainCanvas.GetComponent<RectTransform>().position.y + mainCanvas.GetComponent<RectTransform>().rect.yMax + offset.y;
+        float xMin = parent.GetComponent<RectTransform>().position.x + parent.GetComponent<RectTransform>().rect.xMin - offset.x / 2.0f;
+        float yMax = parent.GetComponent<RectTransform>().position.y + parent.GetComponent<RectTransform>().rect.yMin + offset.y;
         firstPosition = new Vector3(xMin, yMax, 0);
         Image enemySprite = EnemyImage.GetComponent<Image>();
-        margin = new Vector3(enemySprite.rectTransform.sizeDelta.x * 1.5f, 0, 0);
+        margin = new Vector3(enemySprite.rectTransform.sizeDelta.x * 3f, 0, 0);
         HudLoad();
         GameObject cam = GameObject.FindWithTag("HudCam");
         DestroyImmediate(cam);
@@ -78,7 +78,7 @@ public class HudController : MonoBehaviour
         Vector3 nextPos = firstPosition;
         for (int i=0; i < enemiesCounter; i++)
         {
-            GameObject image = GameObject.Instantiate(EnemyImage, nextPos, Quaternion.identity,  mainCanvas.transform);
+            GameObject image = GameObject.Instantiate(EnemyImage, nextPos, Quaternion.identity,  parent.transform);
             nextPos += margin;
             enemiesHudImage.Add(image);
         }
