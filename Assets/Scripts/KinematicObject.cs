@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,6 +37,7 @@ public class KinematicObject : MonoBehaviour
     protected const float minMoveDistance = 0.001f;
     protected const float shellRadius = 0.01f;
 
+    protected bool isOnFixedTile = false;
     protected bool isGrabbing = false;
 
     /// <summary>
@@ -168,6 +169,8 @@ public class KinematicObject : MonoBehaviour
                 //remove shellDistance from actual move distance.
                 var modifiedDistance = hitBuffer[i].distance - shellRadius;
                 distance = modifiedDistance < distance ? modifiedDistance : distance;
+
+                isOnFixedTile = hitBuffer[i].collider.CompareTag("FixedTile");
             }
         }
         body.position = body.position + move.normalized * distance;

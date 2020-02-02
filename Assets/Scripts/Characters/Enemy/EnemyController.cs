@@ -55,13 +55,18 @@ public class EnemyController : KinematicObject
     {
         movementVec.y = -1f;
         int direction = SearchPlayer();
+
+        if (isOnFixedTile)
+        {
+            currentState = EnemyState.Dead;
+        }
+
         switch (currentState)
         {
             case EnemyState.Idle:
                 if ( direction != 0)
                 {
                     currentState = EnemyState.Following;
-
                 }
                 break;
             case EnemyState.Following:
@@ -72,6 +77,8 @@ public class EnemyController : KinematicObject
                 movementVec.x = direction;
                 break;
             case EnemyState.Dead:
+                animator.SetBool("Dead", true);
+                movementVec.x = 0.0f;
                 break;
         }
 
