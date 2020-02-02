@@ -15,7 +15,7 @@ public class HudController : MonoBehaviour
     Vector3 firstPosition;
     Vector3 margin;
     Canvas mainCanvas;
-    Vector2 offset = new Vector2(20,-20);
+    public Vector2 offset = new Vector2(20,-20);
     List<GameObject> enemiesHudImage = new List<GameObject>();
     bool isPause = false;
     
