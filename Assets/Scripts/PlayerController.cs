@@ -16,6 +16,7 @@ public class PlayerController : KinematicObject
     // Public interface
     public float moveSpeed = 2.0f;
     public float jumpTakeOffSpeed = 3.5f;
+    public float onGrabScaleMod = 0.35f;
     public bool IsGrabbing { get; private set; } = false;
     public bool IsDead { get; private set; } = false;
 
@@ -64,6 +65,7 @@ public class PlayerController : KinematicObject
                 IsGrabbing = true;
                 tileToGrab.transform.SetParent(transform);
                 tileToGrab.transform.localPosition += new Vector3(0, 0.1f);
+                tileToGrab.transform.localScale -= new Vector3(onGrabScaleMod, onGrabScaleMod);
                 var tileBody = tileToGrab.GetComponent<Rigidbody2D>();
                 tileBody.bodyType = RigidbodyType2D.Kinematic;
             }
@@ -71,6 +73,7 @@ public class PlayerController : KinematicObject
             {
                 IsGrabbing = false;
                 tileToGrab.transform.SetParent(null);
+                tileToGrab.transform.localScale += new Vector3(onGrabScaleMod, onGrabScaleMod);
                 var tileBody = tileToGrab.GetComponent<Rigidbody2D>();
                 tileBody.bodyType = RigidbodyType2D.Dynamic;
             }
