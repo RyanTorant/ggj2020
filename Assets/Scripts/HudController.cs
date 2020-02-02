@@ -7,7 +7,7 @@ public class HudController : MonoBehaviour
 {
     public GameObject EnemyImage;
     public Text gameOverText;
-    public Button restartButton;
+    public GameObject pausePanel;
     public GameObject EnemyBar;
 
     public int enemiesCounter;
@@ -25,25 +25,25 @@ public class HudController : MonoBehaviour
     {
         Vector2 offset = new Vector2(parent.GetComponent<RectTransform>().rect.width/3f, parent.GetComponent<RectTransform>().rect.height/2f);
         startingEnemies = enemiesCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
-        float xMin = parent.GetComponent<RectTransform>().position.x + parent.GetComponent<RectTransform>().rect.xMin + offset.x / 2.0f;
+        float xMin = parent.GetComponent<RectTransform>().position.x + parent.GetComponent<RectTransform>().rect.xMin - offset.x / 2.0f;
         float yMax = parent.GetComponent<RectTransform>().position.y + parent.GetComponent<RectTransform>().rect.yMin + offset.y;
         firstPosition = new Vector3(xMin, yMax, 0);
         Image enemySprite = EnemyImage.GetComponent<Image>();
-        margin = new Vector3(enemySprite.rectTransform.sizeDelta.x * 1.5f, 0, 0);
+        margin = new Vector3(enemySprite.rectTransform.sizeDelta.x * 3f, 0, 0);
         HudLoad();
         GameObject cam = GameObject.FindWithTag("HudCam");
         DestroyImmediate(cam);
         gameOverText.enabled = false;
-        restartButton.gameObject.SetActive(false);
+        pausePanel.gameObject.SetActive(false);
         EnemyBar.SetActive(true);
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("Pause"))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             isPause = !isPause;
-            restartButton.gameObject.SetActive(isPause);
+            pausePanel.gameObject.SetActive(isPause);
             Time.timeScale = isPause ? 0 : 1;
         }
     }
@@ -60,7 +60,7 @@ public class HudController : MonoBehaviour
     public void GameOver(bool youWon)
     {
         gameOverText.enabled = true;
-        restartButton.gameObject.SetActive(true);
+        pausePanel.gameObject.SetActive(true);
         if (youWon)
         {
             gameOverText.text = "YOU WIN";
