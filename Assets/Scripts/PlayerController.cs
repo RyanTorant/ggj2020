@@ -39,23 +39,6 @@ public class PlayerController : KinematicObject
         animator = GetComponent<Animator>();
     }
 
-    /*DELETE?
-     * private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("DynamicTile"))
-        {
-            tileToGrab = other.gameObject;
-        }
-    }*/
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject == tileToGrab && !IsGrabbing)
-        {
-            tileToGrab = null;
-        }
-    }
-
     protected override void FixedUpdate()
     {
         if(!IsGrabbing)
@@ -63,13 +46,15 @@ public class PlayerController : KinematicObject
             Vector2 hornPos = new Vector2(horn.transform.position.x, horn.transform.position.y);
             Collider2D[] hornCollisionRes = Physics2D.OverlapCircleAll(hornPos, tileGrabbingDist);
 
+            GameObject touchingTile = null;
             foreach (Collider2D res in hornCollisionRes)
             {
                 if (res.gameObject.CompareTag("DynamicTile"))
                 {
-                    tileToGrab = res.gameObject;
+                    touchingTile = res.gameObject;
                 }
             }
+            tileToGrab = touchingTile;
             hornCollisionRes = null;
         }
 
