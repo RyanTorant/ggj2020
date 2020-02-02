@@ -37,6 +37,8 @@ public class KinematicObject : MonoBehaviour
     protected const float minMoveDistance = 0.001f;
     protected const float shellRadius = 0.01f;
 
+    protected bool isOnFixedTile = false;
+
 
     /// <summary>
     /// Bounce the object's vertical velocity.
@@ -164,6 +166,8 @@ public class KinematicObject : MonoBehaviour
                 //remove shellDistance from actual move distance.
                 var modifiedDistance = hitBuffer[i].distance - shellRadius;
                 distance = modifiedDistance < distance ? modifiedDistance : distance;
+
+                isOnFixedTile = hitBuffer[i].collider.CompareTag("FixedTile");
             }
         }
         body.position = body.position + move.normalized * distance;

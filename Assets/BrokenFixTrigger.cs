@@ -25,6 +25,7 @@ public class BrokenFixTrigger : MonoBehaviour
 
         GetComponent<SpriteRenderer>().sprite = fixedSprite;
         GetComponent<Collider2D>().isTrigger = false;
+        gameObject.tag = "FixedTile";
     }
 
     private void OnTriggerEnter2D(Collider2D other)
