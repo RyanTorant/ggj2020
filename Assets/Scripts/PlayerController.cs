@@ -89,7 +89,7 @@ public class PlayerController : KinematicObject
                 tileToGrab.transform.localPosition += new Vector3(0, 0.1f);
                 tileToGrab.transform.localScale -= new Vector3(onGrabScaleMod, onGrabScaleMod);
                 var tileBody = tileToGrab.GetComponent<Rigidbody2D>();
-                //tileBody.bodyType = RigidbodyType2D.Kinematic;
+                tileBody.bodyType = RigidbodyType2D.Kinematic;
             }
             else if(IsGrabbing && tileToGrab != null)
             {
@@ -99,8 +99,6 @@ public class PlayerController : KinematicObject
                 var tileBody = tileToGrab.GetComponent<Rigidbody2D>();
                 tileBody.bodyType = RigidbodyType2D.Dynamic;
                 tileToGrab = null;
-                //tileBody.bodyType = RigidbodyType2D.Dynamic;
-
             }
         }
 

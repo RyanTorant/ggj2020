@@ -1117,7 +1117,7 @@ GameObject:
   - component: {fileID: 3692687141827788134}
   m_Layer: 0
   m_Name: 6
-  m_TagString: Untagged
+  m_TagString: DynamicTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1308,7 +1308,7 @@ GameObject:
   - component: {fileID: 1621940228816546619}
   m_Layer: 0
   m_Name: 6
-  m_TagString: Untagged
+  m_TagString: DynamicTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1364,7 +1364,7 @@ GameObject:
   - component: {fileID: 4341101564574305289}
   m_Layer: 0
   m_Name: 5
-  m_TagString: Untagged
+  m_TagString: DynamicTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1680,7 +1680,7 @@ GameObject:
   - component: {fileID: 2315330563558902796}
   m_Layer: 0
   m_Name: 1
-  m_TagString: Untagged
+  m_TagString: DynamicTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2084,7 +2084,7 @@ GameObject:
   - component: {fileID: 3022439024540045167}
   m_Layer: 0
   m_Name: 9
-  m_TagString: Untagged
+  m_TagString: DynamicTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2867,7 +2867,7 @@ GameObject:
   - component: {fileID: 4259483550801381645}
   m_Layer: 0
   m_Name: 4
-  m_TagString: Untagged
+  m_TagString: DynamicTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3286,7 +3286,7 @@ GameObject:
   - component: {fileID: 6178783167840886574}
   m_Layer: 0
   m_Name: 6
-  m_TagString: Untagged
+  m_TagString: DynamicTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3306,7 +3306,7 @@ GameObject:
   - component: {fileID: 5080399302408926422}
   m_Layer: 0
   m_Name: 5
-  m_TagString: Untagged
+  m_TagString: DynamicTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3615,7 +3615,7 @@ GameObject:
   - component: {fileID: 5955965137745545542}
   m_Layer: 0
   m_Name: 3
-  m_TagString: Untagged
+  m_TagString: DynamicTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3767,7 +3767,7 @@ GameObject:
   - component: {fileID: 6070558446873996334}
   m_Layer: 0
   m_Name: 2
-  m_TagString: Untagged
+  m_TagString: DynamicTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4650,7 +4650,7 @@ GameObject:
   - component: {fileID: 3096669413925312226}
   m_Layer: 0
   m_Name: 5
-  m_TagString: Untagged
+  m_TagString: DynamicTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
