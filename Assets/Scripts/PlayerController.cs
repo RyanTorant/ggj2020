@@ -140,7 +140,7 @@ public class PlayerController : KinematicObject
         animator.SetBool("Jumping", jumpState == JumpState.Jumping || jumpState == JumpState.InFlight);
         animator.SetBool("Grounded", IsGrounded);
         animator.SetBool("Grabbing", IsGrabbing);
-        animator.SetBool("Dead", IsDead);
+        animator.SetBool("Dead", isOnEnemy);
         animator.SetFloat("VelocityX", Mathf.Abs(velocity.x) / moveSpeed);
 
         targetVelocity = movementVec * moveSpeed;
