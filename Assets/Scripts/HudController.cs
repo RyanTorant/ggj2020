@@ -15,6 +15,7 @@ public class HudController : MonoBehaviour
     Canvas mainCanvas;
     Vector2 offset = new Vector2(20,-20);
     List<GameObject> enemiesHudImage = new List<GameObject>();
+    bool isPause = false;
     
     
     // Start is called before the first frame update
@@ -32,6 +33,16 @@ public class HudController : MonoBehaviour
         DestroyImmediate(cam);
         gameOverText.enabled = false;
         restartButton.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("Pause"))
+        {
+            isPause = !isPause;
+            restartButton.gameObject.SetActive(isPause);
+            Time.timeScale = isPause ? 0 : 1;
+        }
     }
 
     public int KillEnemy()
