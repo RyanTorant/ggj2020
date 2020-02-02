@@ -7,18 +7,29 @@ public class EnemyDeadBehaviour : StateMachineBehaviour
     public Color BadColor;
     public Color GoodColor;
 
+    private Color FadeStartColor;
+    private Color FadeEndColor;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        HudController HUD = GameObject.FindObjectOfType<HudController>();
+        if (HUD != null)
+        {
+            FadeStartColor = Color.Lerp(GoodColor, BadColor, (float)HUD.enemiesCounter / (float)HUD.startingEnemies);
+            FadeEndColor = Color.Lerp(GoodColor, BadColor, (float)(HUD.enemiesCounter - 1) / (float)HUD.startingEnemies);
+        }
+    }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
-
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        HudController HUD = GameObject.FindObjectOfType<HudController>();
+        if (HUD != null)
+        {
+            Camera.main.backgroundColor = Color.Lerp(FadeStartColor, FadeEndColor, stateInfo.normalizedTime);
+        }
+    }
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -27,10 +38,6 @@ public class EnemyDeadBehaviour : StateMachineBehaviour
         if (HUD != null)
         {
             int enemyCount = HUD.KillEnemy();
-
-            // Change the background
-            var cam = GameObject.Find("MainCamera").GetComponent<Camera>();
-            cam.backgroundColor = Color.Lerp(BadColor, GoodColor, (float)enemyCount / (float)HUD.startingEnemies);
 
             // Check if you won
             if (enemyCount == 0)

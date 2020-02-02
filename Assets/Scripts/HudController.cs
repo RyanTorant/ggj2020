@@ -9,7 +9,7 @@ public class HudController : MonoBehaviour
     public Text gameOverText;
     public Button restartButton;
 
-    int enemiesCounter;
+    public int enemiesCounter;
     public int startingEnemies;
     Vector3 firstPosition;
     Vector3 margin;
