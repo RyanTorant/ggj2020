@@ -38,7 +38,7 @@ public class HudController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Pause"))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             isPause = !isPause;
             restartButton.gameObject.SetActive(isPause);
