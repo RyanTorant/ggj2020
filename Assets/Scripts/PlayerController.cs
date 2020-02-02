@@ -39,27 +39,20 @@ public class PlayerController : KinematicObject
         animator = GetComponent<Animator>();
     }
 
-    /*DELETE?
-     * private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("DynamicTile"))
-        {
-            tileToGrab = other.gameObject;
-        }
-    }*/
 
-    private void OnTriggerExit2D(Collider2D other)
+    /*private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject == tileToGrab && !IsGrabbing)
         {
             tileToGrab = null;
         }
-    }
+    }*/
 
     protected override void FixedUpdate()
     {
         if(!IsGrabbing)
         {
+            tileToGrab = null;
             Vector2 hornPos = new Vector2(horn.transform.position.x, horn.transform.position.y);
             Collider2D[] hornCollisionRes = Physics2D.OverlapCircleAll(hornPos, tileGrabbingDist);
 
@@ -165,7 +158,7 @@ public class PlayerController : KinematicObject
             if (movementVec.x > moveEpsilon && !IsGrabbing && spriteRenderer.flipX)
             {
                 spriteRenderer.flipX = false;
-                if (horn.transform.position.x < 0)
+                if (horn.transform.position.x <= this.transform.position.x)
                 {
                     horn.transform.localPosition = new Vector3(-1 * horn.transform.localPosition.x, horn.transform.localPosition.y, horn.transform.localPosition.z);
                     // collider2d.offset *= new Vector2(-1, 1); 
@@ -175,7 +168,7 @@ public class PlayerController : KinematicObject
             else if (movementVec.x < -moveEpsilon && !IsGrabbing && !spriteRenderer.flipX) // Don't flip when grabbing
             {
                 spriteRenderer.flipX = true;
-                if (horn.transform.localPosition.x > 0)
+                if (horn.transform.localPosition.x >= this.transform.position.x)
                 {
                     horn.transform.localPosition = new Vector3(-1 * horn.transform.localPosition.x, horn.transform.localPosition.y, horn.transform.localPosition.z);
                     //collider2d.offset *= new Vector2(-1, 1);
