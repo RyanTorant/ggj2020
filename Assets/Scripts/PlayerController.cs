@@ -19,10 +19,11 @@ public class PlayerController : KinematicObject
     public float onGrabScaleMod = 0.35f;
     public bool IsGrabbing { get; private set; } = false;
     public bool IsDead { get; private set; } = false;
+    public float tileGrabbingDist;
 
     // Internal state
     private Collider2D collider2d;
-    public Collider2D colliderTrompa;
+    public GameObject horn;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private Vector2 movementVec;
@@ -35,20 +36,41 @@ public class PlayerController : KinematicObject
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         AudioManager.PlayMusic(0);
+
     }
-    private void OnTriggerEnter2D(Collider2D other)
+
+    /*DELETE?
+     * private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("DynamicTile"))
         {
             tileToGrab = other.gameObject;
         }
-    }
+    }*/
+
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject == tileToGrab && !IsGrabbing)
         {
             tileToGrab = null;
         }
+    }
+
+    protected override void FixedUpdate()
+    {
+        Vector2 hornPos = new Vector2(horn.transform.position.x, horn.transform.position.y);
+        Collider2D[] hornCollisionRes = Physics2D.OverlapCircleAll(hornPos, tileGrabbingDist);
+
+        foreach (Collider2D res in hornCollisionRes)
+        {
+            if (res.gameObject.CompareTag("DynamicTile"))
+            {
+                tileToGrab = res.gameObject;
+            }
+        }
+
+        base.FixedUpdate();
+        hornCollisionRes = null;
     }
 
     protected override void Update()
@@ -63,6 +85,12 @@ public class PlayerController : KinematicObject
             if(!IsGrabbing && tileToGrab != null)
             {
                 IsGrabbing = true;
+                DynamicTile dynamicTileFix = tileToGrab.GetComponent<DynamicTile>();
+                if (dynamicTileFix != null)
+                {
+                    dynamicTileFix.IsBeingGrabbed = true;
+                }
+                
                 tileToGrab.transform.SetParent(transform);
                 tileToGrab.transform.localPosition += new Vector3(0, 0.1f);
                 tileToGrab.transform.localScale -= new Vector3(onGrabScaleMod, onGrabScaleMod);
@@ -72,6 +100,11 @@ public class PlayerController : KinematicObject
             else if(IsGrabbing && tileToGrab != null)
             {
                 IsGrabbing = false;
+                DynamicTile dynamicTileFix = tileToGrab.GetComponent<DynamicTile>();
+                if (dynamicTileFix != null)
+                {
+                    dynamicTileFix.IsBeingGrabbed = false;
+                }
                 tileToGrab.transform.SetParent(null);
                 tileToGrab.transform.localScale += new Vector3(onGrabScaleMod, onGrabScaleMod);
                 var tileBody = tileToGrab.GetComponent<Rigidbody2D>();
@@ -117,32 +150,37 @@ public class PlayerController : KinematicObject
 
         const float moveEpsilon = 0.01f;
 
-        if (movementVec.x > moveEpsilon && !IsGrabbing)
+        if (movementVec.x > moveEpsilon && !IsGrabbing && spriteRenderer.flipX)
         {
             spriteRenderer.flipX = false;
-            if (colliderTrompa.offset.x < 0)
+            if (horn.transform.position.x < 0)
             {
-                colliderTrompa.offset *= new Vector2(-1,1);
-                collider2d.offset *= new Vector2(-1, 1);
+                horn.transform.localPosition = new Vector3(-1 * horn.transform.localPosition.x, horn.transform.localPosition.y, horn.transform.localPosition.z);
+               // collider2d.offset *= new Vector2(-1, 1); 
             }
 
         }
-        else if (movementVec.x < -moveEpsilon && !IsGrabbing) // Don't flip when grabbing
+        else if (movementVec.x < -moveEpsilon && !IsGrabbing && !spriteRenderer.flipX) // Don't flip when grabbing
         { 
             spriteRenderer.flipX = true;
-            if (colliderTrompa.offset.x > 0)
-            {
-                colliderTrompa.offset *= new Vector2(-1, 1);
-                collider2d.offset *= new Vector2(-1, 1);
-            }
+            if (horn.transform.localPosition.x > 0)
+              {
+                  horn.transform.localPosition = new Vector3(-1 * horn.transform.localPosition.x, horn.transform.localPosition.y, horn.transform.localPosition.z);
+                  //collider2d.offset *= new Vector2(-1, 1);
+              }
 
         }
         animator.SetBool("Jumping", jumpState == JumpState.Jumping || jumpState == JumpState.InFlight);
         animator.SetBool("Grounded", IsGrounded);
         animator.SetBool("Grabbing", IsGrabbing);
-        animator.SetBool("Dead", IsDead);
+        animator.SetBool("Dead", isOnEnemy || IsDead);
         animator.SetFloat("VelocityX", Mathf.Abs(velocity.x) / moveSpeed);
 
         targetVelocity = movementVec * moveSpeed;
+    }
+
+    public void Kill()
+    {
+        IsDead = true;
     }
 }

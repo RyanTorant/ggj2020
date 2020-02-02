@@ -38,6 +38,8 @@ public class KinematicObject : MonoBehaviour
     protected const float shellRadius = 0.01f;
 
     protected bool isOnFixedTile = false;
+    protected bool isOnEnemy = false;
+    protected bool isOnPlayer = false;
     protected bool isGrabbing = false;
 
     /// <summary>
@@ -133,9 +135,15 @@ public class KinematicObject : MonoBehaviour
         {
             //check if we hit anything in current direction of travel
             var count = body.Cast(move, contactFilter, hitBuffer, distance + shellRadius);
+            isOnFixedTile = false;
+            isOnEnemy = false;
             for (var i = 0; i < count; i++)
             {
-                if(isGrabbing && hitBuffer[i].collider.gameObject.CompareTag("DynamicTile"))
+                isOnFixedTile = hitBuffer[i].collider.CompareTag("FixedTile") || isOnFixedTile;
+                isOnEnemy = hitBuffer[i].collider.CompareTag("Enemy") || isOnEnemy;
+                isOnPlayer = hitBuffer[i].collider.CompareTag("Player") || isOnPlayer;
+
+                if (isGrabbing && hitBuffer[i].collider.gameObject.CompareTag("DynamicTile"))
                     continue;
 
                 var currentNormal = hitBuffer[i].normal;
@@ -169,8 +177,6 @@ public class KinematicObject : MonoBehaviour
                 //remove shellDistance from actual move distance.
                 var modifiedDistance = hitBuffer[i].distance - shellRadius;
                 distance = modifiedDistance < distance ? modifiedDistance : distance;
-
-                isOnFixedTile = hitBuffer[i].collider.CompareTag("FixedTile");
             }
         }
         body.position = body.position + move.normalized * distance;
